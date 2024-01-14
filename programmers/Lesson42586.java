@@ -1,27 +1,39 @@
 import java.util.*;
 
 class Lesson42586 {
-  public ArrayList<Integer> solution(int[] progresses, int[] speeds) {
+  public ArrayList<Integer> solution(int[] progresses, int[] speeds) 
+  
       ArrayList<Integer> answer = new ArrayList<>();
-      int[] daysToComplete = new int[progresses.length];
+      Queue<Integer> que = new LinkedList<>();
 
-      for (int i=0; i<daysToComplete.length; i++){
+      for (int i=0; i<progresses.length; i++){
         int days = (100-progresses[i])/speeds[i];
-        daysToComplete[i] = (100-progresses[i])%speeds[i] == 0 ? days : days+1;
+        que.add((100-progresses[i])%speeds[i] == 0 ? days : days+1);
       }
-      int deploy = 0;
-      int max = daysToComplete[0];
-
-      for (int i=0; i<daysToComplete.length; i++){
-        if (daysToComplete[i]>max){
+      //Queue를 이영한 방법.
+      int deploy = 1;
+      int max = que.poll();
+      while(!que.isEmpty()){
+        int temp = que.poll();
+        if (temp>max){
           answer.add(deploy);
           deploy = 1;
-          max = daysToComplete[i];
+          max = temp;
         }else{
           deploy++;
         }
       }
       answer.add(deploy);
+      // for (int i=0; i<daysToComplete.length; i++){
+      //   if (daysToComplete[i]>max){
+      //     answer.add(deploy);
+      //     deploy = 1;
+      //     max = daysToComplete[i];
+      //   }else{
+      //     deploy++;
+      //   }
+      // }
+      // answer.add(deploy);
 
       // for(int i=0; i<daysToComplete.length; i++){
       //   if(i==daysToComplete.length-1){
